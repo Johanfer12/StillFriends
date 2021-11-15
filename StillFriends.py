@@ -1,18 +1,22 @@
-from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from webdriver_manager.chrome import ChromeDriverManager
+from selenium import webdriver
 import time
+import os
 
+#Set current working directory
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-login = open("urls.txt").read().splitlines()
+#https://m.facebook.com/(your_username))/friends in urls.txt
+
+urls = open("urls.txt").read().splitlines()
+fb = urls[0]
 options = webdriver.ChromeOptions()
 options.add_argument("user-data-dir=C:\\Users\\Johan\\AppData\\Local\\Google\\Chrome\\User Data")
 s=Service(ChromeDriverManager().install())
 driver = webdriver.Chrome(service=s, options=options)
-#driver.get('https://m.facebook.com/Johanfer12/friends')
-driver.get('https://m.facebook.com/Johanfer12/friends')
+driver.get(fb)
 
 ##Scrolling down the page
 
@@ -35,6 +39,8 @@ while True:
     last_height = new_height
 
 time.sleep(5)
+
+#Loading friend list
 
 Friends = driver.find_elements(By.XPATH,"//h3[contains(@class,'_52jh _5pxc _8yo0')]")
 Friends2 = driver.find_elements(By.XPATH,"//h1[contains(@class,'_52jh _5pxc _8yo0')]")
