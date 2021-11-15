@@ -1,31 +1,52 @@
-from webdriver_manager.chrome import ChromeDriverManager
+from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
 import time
 
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+login = open("urls.txt").read().splitlines()
 options = webdriver.ChromeOptions()
-#options.add_argument("--log-level=OFF")
-#options.add_argument("--ignore-certificate-error")
-#options.add_argument("--ignore-ssl-errors")
-#options.add_argument('--headless')
-#options.add_argument("--disable-blink-features=AutomationControlled")
 options.add_argument("user-data-dir=C:\\Users\\Johan\\AppData\\Local\\Google\\Chrome\\User Data")
 s=Service(ChromeDriverManager().install())
 driver = webdriver.Chrome(service=s, options=options)
-
-
-
+#driver.get('https://m.facebook.com/Johanfer12/friends')
 driver.get('https://m.facebook.com/Johanfer12/friends')
+
+##Scrolling down the page
+
+SCROLL_PAUSE_TIME = 0.5
+
+# Get scroll height
+last_height = driver.execute_script("return document.body.scrollHeight")
+
+while True:
+    # Scroll down to bottom
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
+    # Wait to load page
+    time.sleep(SCROLL_PAUSE_TIME)
+
+    # Calculate new scroll height and compare with last scroll height
+    new_height = driver.execute_script("return document.body.scrollHeight")
+    if new_height == last_height:
+        break
+    last_height = new_height
+
 time.sleep(5)
 
-Friends = driver.find_elements(By.XPATH,'//*[@id="root"]/div/div/div[3]/div[1]/div[1]/div[2]/div/div[1]/h3')
-x = driver.find_elements(By.CSS_SELECTOR("_52jh _5pxc _8yo0"))
-for i in x:
-    t = i.get_attribute("text")
-    print("aaaa"+str(t))
-    print("bbbbb"+str(i))
+Friends = driver.find_elements(By.XPATH,"//h3[contains(@class,'_52jh _5pxc _8yo0')]")
+Friends2 = driver.find_elements(By.XPATH,"//h1[contains(@class,'_52jh _5pxc _8yo0')]")
 
-print(Friends)
+count = 0
 
-#time.sleep(1000)
+for friend in Friends:
+    print(friend.text)
+    count = count + 1
+
+for friend in Friends2:
+    print(friend.text)
+    count = count + 1
+
+print(count)
