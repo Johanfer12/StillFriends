@@ -1,3 +1,5 @@
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
@@ -134,6 +136,9 @@ def tw_check():
     for follower in followers:
         twlist.append(follower.screen_name)
 
+    ##Print followers count
+    print(str(num_followers) + " followers found!")
+
     #Create tw.txt file
     if os.path.isfile("tw.txt") == False:
 
@@ -178,6 +183,93 @@ def tw_check():
             tw.write(follower + '\n')
         tw.close()
 
+
+def inst_check():
+
+    options = webdriver.ChromeOptions()
+    options.add_argument("user-data-dir=" + urls[1])
+    s=Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=s, options=options)
+
+    driver.get(urls[15])
+
+    time.sleep(1)
+
+    driver.find_element(By.XPATH,"/html/body/div[1]/section/main/div/header/section/ul/li[2]/a").click()
+
+    ##Scrolling down the page
+
+    pop_up_window = WebDriverWait(
+    driver, 2).until(EC.element_to_be_clickable(
+        (By.XPATH, "//div[@class='isgrP']")))
+
+    cont = 0
+
+    while True:
+        driver.execute_script('arguments[0].scrollTop = arguments[0].scrollTop + arguments[0].offsetHeight;',pop_up_window)
+        cont = cont + 1
+
+        if cont == 600:
+            break
+
+    time.sleep(3)
+
+    Followers = driver.find_elements(By.XPATH,"//a[contains(@class,'FPmhX notranslate  _0imsa ')]")
+
+    total = len(Followers)
+
+    print(str(total) + " IG followers found!")
+
+    iglist = []
+
+    for follower in Followers:
+        iglist.append(follower.text)
+
+    #Create ig.txt file
+    if os.path.isfile("ig.txt") == False:
+
+        ig = open('ig.txt', 'a', encoding="utf-8")
+        for follower in iglist:
+            ig.write(follower + '\n')
+        ig.close()
+        print("IG file created")
+
+    #Compare previous results with current results
+
+    else:
+            
+            igback = open('ig.txt', encoding="utf-8").read().splitlines()
+    
+            if igback == iglist:
+                print("No new followers")
+            if igback != iglist:
+                difference = list(set(iglist) - set(igback))
+                print("New followers: " + str(len(difference)))
+                print("Lost followers: " + str(len(list(set(igback) - set(iglist)))))
+                print("New followers names: " + str(difference))
+                print("Lost followers names: " + str(list(set(igback) - set(iglist))))
+    
+                #Save differences to igdiff.txt with date and time
+    
+                igdiff = open('igdiff.txt', 'a')
+                igdiff.write(str(today) + '\n')
+    
+                #if is a lost follower:
+                for follower in list(set(igback) - set(iglist)):
+                    igdiff.write("Lost follower: " + follower + '\n')
+    
+                #if is a new follower:
+                for follower in difference:
+                    igdiff.write("New follower: " + follower + '\n')
+                igdiff.close()
+    
+            #update current results to ig.txt and delete previous results:
+            ig = open('ig.txt', 'w', encoding="utf-8")
+            for follower in iglist:
+                ig.write(follower + '\n')
+            ig.close()
+
+
 ##CHECKING##
 
 ask = int(input("What do you want to check? (1=All 2=FB 3=TW 4=INST): "))
@@ -185,7 +277,7 @@ ask = int(input("What do you want to check? (1=All 2=FB 3=TW 4=INST): "))
 if ask == 1:
     fb_check()
     tw_check()
-    #inst_check()
+    inst_check()
 
 if ask == 2:
     fb_check()
@@ -193,9 +285,8 @@ if ask == 2:
 if ask == 3:
     tw_check()
 
-#if ask == 4:
-    #inst_check()
+if ask == 4:
+    inst_check()
 
 if ask != 1 and ask != 2 and ask != 3 and ask != 4:
     print("Wrong input")
-
