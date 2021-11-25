@@ -35,7 +35,7 @@ def update (name, flist):
             file.write(friend + '\n')
 
         file.close()
-        print(name + "file created")
+        print(name + " file created")
 
     #Compare previous results with current results
 
