@@ -130,7 +130,7 @@ def tw_check():
 
     # fetching all the followers with cursor
     followers = tweepy.Cursor(api.get_followers, id=urls[14]).items()
-
+  
     twlist = []
 
     for follower in followers:
