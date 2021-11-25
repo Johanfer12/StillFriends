@@ -21,6 +21,8 @@ urls = open("urls.txt").read().splitlines()
 ##Getting current date and time
 today = datetime.now()
 
+##File creation method##
+
 def update (name, flist):
 
     #create *.txt file to store previous results
@@ -72,7 +74,7 @@ def update (name, flist):
 
     print(str(len(flist)) + " " + name + " friends found!")
 
-##FACEBOOK CHECK##
+##FACEBOOK FRIENDS CHECK##
 
 def fb_check():
 
@@ -109,14 +111,13 @@ def fb_check():
 
     Friends = driver.find_elements(By.XPATH,"//h3[contains(@class,'_52jh _5pxc _8yo0')]")
     Friends2 = driver.find_elements(By.XPATH,"//h1[contains(@class,'_52jh _5pxc _8yo0')]")
-
-    count = 0
+ 
     fblist = []
 
     for friend in itertools.chain(Friends, Friends2):
         fblist.append(friend.text)
 
-    update("fx", fblist)
+    update("FB", fblist)
 
 ####TWITTER FOLLOWERS CHECK####
 
@@ -134,11 +135,11 @@ def tw_check():
     for follower in followers:
         twlist.append(follower.screen_name)
 
-    update("tx", twlist)
+    update("TW", twlist)
 
 ###INSTAGRAM FOLLOWERS CHECK###
 
-def inst_check():
+def ig_check():
 
     options = webdriver.ChromeOptions()
     options.add_argument("user-data-dir=" + urls[1])
@@ -170,17 +171,12 @@ def inst_check():
 
     Followers = driver.find_elements(By.XPATH,"//a[contains(@class,'FPmhX notranslate  _0imsa ')]")
 
-    total = len(Followers)
-
-    print(str(total) + " IG followers found!")
-
     iglist = []
 
     for follower in Followers:
         iglist.append(follower.text)
 
-    update("ix", iglist)
-
+    update("IG", iglist)
 
 ##CHECKING##
 
@@ -188,8 +184,8 @@ ask = int(input("What do you want to check? (1=All 2=FB 3=TW 4=INST): "))
 
 if ask == 1:
     fb_check()
-    tw_check()
-    inst_check()
+    ig_check()
+    tw_check()    
 
 if ask == 2:
     fb_check()
@@ -198,7 +194,7 @@ if ask == 3:
     tw_check()
 
 if ask == 4:
-    inst_check()
+    ig_check()
 
 if ask != 1 and ask != 2 and ask != 3 and ask != 4:
     print("Wrong input")
