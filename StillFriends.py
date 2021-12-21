@@ -198,3 +198,5 @@ if ask == 4:
 
 if ask != 1 and ask != 2 and ask != 3 and ask != 4:
     print("Wrong input")
+
+time.sleep(300)
