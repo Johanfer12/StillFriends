@@ -169,7 +169,7 @@ def ig_check():
 
     time.sleep(3)
 
-    Followers = driver.find_elements(By.XPATH,"//a[contains(@class,'FPmhX notranslate  _0imsa ')]")
+    Followers = driver.find_elements(By.XPATH,"//a[contains(@class,'notranslate _0imsa ')]")
 
     iglist = []
 
