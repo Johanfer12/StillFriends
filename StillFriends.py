@@ -79,6 +79,7 @@ def update (name, flist):
 def fb_check():
 
     options = webdriver.ChromeOptions()
+    options.add_argument('--profile-directory=Profile 3')
     options.add_argument("user-data-dir=" + urls[1])
     s=Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=s, options=options)
@@ -142,6 +143,7 @@ def tw_check():
 def ig_check():
 
     options = webdriver.ChromeOptions()
+    options.add_argument('--profile-directory=Profile 3')
     options.add_argument("user-data-dir=" + urls[1])
     s=Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=s, options=options)
@@ -150,7 +152,9 @@ def ig_check():
 
     time.sleep(1)
 
+    #driver.find_element(By.XPATH,"/html/body/div[1]/section/main/div/header/section/ul/li[2]/a").click()
     driver.find_element(By.XPATH,"/html/body/div[1]/section/main/div/header/section/ul/li[2]/a").click()
+    
 
     ##Scrolling down the page
 
