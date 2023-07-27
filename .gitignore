@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 *.txt
 *.htm
+StillFriends.7z
 
 # C extensions
 *.so
