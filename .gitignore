@@ -116,3 +116,9 @@ dmypy.json
 # Pyre type checker
 .pyre/
 *.bat
+
+# StillFriends: datos y credenciales locales
+config.toml
+data/
+!requirements.txt
+!config.example.toml

@@ -1,0 +1,42 @@
+# Copia este archivo a config.toml y rellena tus datos.
+# config.toml esta en .gitignore: nunca se sube al repo.
+
+# Redes a revisar cuando no pasas -p. Quita las que no uses.
+platforms = ["fb", "ig", "x"]
+
+[browser]
+# Que navegador usar: msedge | chrome | msedge-beta | chrome-beta
+channel = "msedge"
+
+# StillFriends usa un perfil de navegador PROPIO, aparte del que usas a diario.
+# Inicias sesion una vez (stillfriends login) y queda guardada para siempre.
+#
+# Por que no el perfil de siempre: desde Chrome 136 / Edge 136 el navegador
+# ignora --remote-debugging-port cuando apuntas al perfil por defecto, y sin
+# ese puerto no hay forma de conducir la ventana que ya tienes abierta. La
+# ventaja de tener perfil propio es que tu navegador nunca se cierra ni se toca.
+#
+# Vacio = %LOCALAPPDATA%\StillFriends\<channel>-profile  (o su equivalente).
+# Si pones una ruta, usa comillas SIMPLES: en TOML son cadena literal y no hay
+# que escapar los backslashes.   profile_dir = 'D:\misperfiles\stillfriends'
+profile_dir = ""
+
+# Avanzado: en vez de que StillFriends abra el navegador, engancharse a uno que
+# arrancas tu con el puerto de depuracion. Tiene que llevar un --user-data-dir
+# que NO sea tu perfil normal, o el puerto no abrira.
+#   msedge.exe --remote-debugging-port=9222 --user-data-dir=C:\algun\otro\sitio
+# cdp_url = "http://localhost:9222"
+
+[urls]
+facebook_friends_url = "https://www.facebook.com/TU_USUARIO/friends"
+instagram_profile_url = "https://www.instagram.com/TU_USUARIO/"
+x_followers_url = "https://x.com/TU_USUARIO/followers"
+x_following_url = "https://x.com/TU_USUARIO/following"
+
+[tuning]
+# Milisegundos de espera entre scroll y scroll.
+scroll_pause_ms = 1200
+# Rondas seguidas sin resultados nuevos antes de dar la lista por completa.
+idle_rounds = 10
+# Tope de scrolls, por si una pagina no termina nunca.
+max_scrolls = 600
